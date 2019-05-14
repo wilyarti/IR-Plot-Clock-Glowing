@@ -54,7 +54,7 @@
 #define L4 45
 
 //comment the next line out for military 24 hour time setting.
-#define NONMILITARY
+//#define NONMILITARY
 
 
 // origin points of left and right servo
@@ -84,7 +84,7 @@ volatile double lastY = 47.5;
 
 int last_min = 0;
 int counter = 0;
-int manual_counter = 5;
+int manual_counter = 0;
 
 const int RECV_PIN = 6;
 IRrecv irrecv(RECV_PIN);
@@ -137,8 +137,8 @@ void loop()
       }
 #endif
     }
-    if (manual_counter > 60) {
-      manual_counter = 5;
+    if (manual_counter >= 60 ) {
+      manual_counter = 0;
     }
     switch (results.value) {
 
@@ -166,70 +166,70 @@ void loop()
         drawTo(5, 50);
         delay(500);
         number(manual_counter, 25, 0, 1.2);
-        manual_counter += 15;
+        manual_counter += 20;
         Serial.println("Writing 0.");
         break;
       case   0xFF30CF:
         drawTo(5, 50);
         delay(500);
         number(manual_counter, 25, 1, 1.2);
-        manual_counter += 10;
+        manual_counter += 20;
         Serial.println("Writing 1.");
         break;
       case   0xFF18E7:
         drawTo(5, 50);
         delay(500);
         number(manual_counter, 25, 2, 1.2);
-        manual_counter += 10;
+        manual_counter += 20;
         Serial.println("Writing 2.");
         break;
       case  0xFF7A85 :
         drawTo(5, 50);
         delay(500);
         number(manual_counter, 25, 3, 1.2);
-        manual_counter += 10;
+        manual_counter += 20;
         Serial.println("Writing 3.");
         break;
       case  0xFF10EF :
         drawTo(5, 50);
         delay(500);
         number(manual_counter, 25, 4, 1.2);
-        manual_counter += 10;
+        manual_counter += 20;
         Serial.println("Writing 4.");
         break;
       case   0xFF38C7 :
         drawTo(5, 50);
         delay(500);
         number(manual_counter, 25, 5, 1.2);
-        manual_counter += 10;
+        manual_counter += 20;
         Serial.println("Writing 5.");
         break;
       case  0xFF5AA5 :
         drawTo(5, 50);
         delay(500);
         number(manual_counter, 25, 6, 1.2);
-        manual_counter += 10;
+        manual_counter += 20;
         Serial.println("Writing 6.");
         break;
       case   0xFF42BD:
         drawTo(5, 50);
         delay(500);
         number(manual_counter, 25, 7, 1.2);
-        manual_counter += 10;
+        manual_counter += 20;
         Serial.println("Writing 7.");
         break;
       case  0xFF4AB5 :
         drawTo(5, 50);
         delay(200);
         number(manual_counter, 25, 8, 1.2);
-        manual_counter += 10;
+        manual_counter += 20;
         Serial.println("Writing 8.");
         break;
       case 0xFF52AD   :
         drawTo(5, 50);
         delay(500);
         number(manual_counter, 25, 9, 1.2);
-        manual_counter += 10;
+        manual_counter += 20;
         Serial.println("Writing 9.");
         break;
       case 0xFFC23D :
@@ -268,22 +268,24 @@ void loop()
     {
       i++;
     }
-
     if (i != 0) {
-      number(5, 25, i, 1.2);
+      number(0, 35, i, 1.2);
     }
-    number(21, 25, (hour() - i * 10), 1.2);
-    number(35, 25, 11, 1.2);
-
+    delay(100);
+    number(18, 35, (hour() - i * 10), 1.2);
+    delay(100);
+    number(30, 35, 11, 1.2);
     i = 0;
     while ((i + 1) * 10 <= minute())
     {
       i++;
     }
-    number(44, 25, i, 1.2);
-    number(57, 15, (minute() - i * 10), 1.2);
+    number(40, 35, i, 1.2);
+    delay(100);
+    number(60, 25, (minute() - i * 10), 1.2);
+    delay(100);
     //lift(2);
-    drawTo(55, 2);
+    drawTo(55, 25);
     //lift(1);
     delay(580);
     Serial.print(hour());
